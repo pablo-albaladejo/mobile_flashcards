@@ -1,7 +1,7 @@
 {
   "name": "mobile_flashcards",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "devDependencies": {
     "react-native-scripts": "1.11.1",
     "jest-expo": "25.0.0",
@@ -20,9 +20,10 @@
   },
   "dependencies": {
     "ex-react-native-i18n": "0.0.3",
-    "expo": "^25.0.0",
+    "expo": "25.0.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-elements": "1.0.0-beta2",
     "react-native-navbar": "2.1.0",
     "react-native-vector-icons": "4.5.0",
     "react-navigation": "1.4.0"

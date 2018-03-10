@@ -2,8 +2,10 @@
     "en": {
         "Menu": {
             "decks": "Decks",
+            "deck": "Deck",
             "create_deck": "Create deck",
-            "profile": "Profile"
+            "profile": "Profile",
+            "settings": "Settings"
         }
     }
 }

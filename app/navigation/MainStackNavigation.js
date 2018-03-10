@@ -1,7 +1,8 @@
 import { StackNavigator } from 'react-navigation'
 
 import TabsNavigation from './TabsNavigation';
-import CreateDeckScreen from '../screens/CreateDeckScreen';
+import CreateDeckScreen from '../screens/deck/CreateDeckScreen';
+import DeckStackNavigation from './DeckStackNavigation';
 
 const MainStackNavigation = StackNavigator({
     Tabs: {
@@ -10,6 +11,9 @@ const MainStackNavigation = StackNavigator({
     CreateDeck:{
         screen: CreateDeckScreen,
     },
+    Decks: {
+        screen: DeckStackNavigation,
+    }
 },
     {
         initialRouteName: 'Tabs',

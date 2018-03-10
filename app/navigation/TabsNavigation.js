@@ -3,20 +3,21 @@ import { TabNavigator } from 'react-navigation'
 
 import CustomTabBar from '../components/common/CustomTabBar'
 
-import DecksScreen from '../screens/DecksScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import DeckStackNavigation from './DeckStackNavigation';
+import ProfileStackNavigation from './ProfileStackNavigation';
 
 const TabsNavigation = TabNavigator({
     Decks: {
-        screen: DecksScreen,
+        screen: DeckStackNavigation,
     },
     Modal: {
         screen: View,
     },
     Profile: {
-        screen: ProfileScreen,
+        screen: ProfileStackNavigation,
     },
 }, {
+
         tabBarComponent: CustomTabBar,
         tabBarPosition: 'bottom',
         animationEnabled: false,

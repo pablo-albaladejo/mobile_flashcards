@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 
-import ServiceFacade from '../services/ServiceFacade';
-import CustomNavigationBar from '../components/common/CustomNavigationBar';
+import ServiceFacade from '../../services/ServiceFacade';
+import CustomNavigationBar from '../../components/common/CustomNavigationBar';
 
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,7 +32,7 @@ class CreateDeckScreen extends Component {
         }
 
         return (
-            <View style={styles.containers} >
+            <View style={styles.container} >
                 <CustomNavigationBar options={navBarOptions}/>
             </View>
         );
