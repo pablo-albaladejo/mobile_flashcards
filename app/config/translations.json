@@ -6,6 +6,12 @@
             "create_deck": "Create deck",
             "profile": "Profile",
             "settings": "Settings"
+        },
+        "Deck":{
+            "cards": "cards",
+            "add_card": "Add card",
+            "start_quiz": "Start quiz",
+            "quiz": "Quiz"            
         }
     }
 }

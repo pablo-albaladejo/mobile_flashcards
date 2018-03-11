@@ -14,29 +14,25 @@ const styles = StyleSheet.create({
     }
 });
 
-class ProfileScreen extends Component {
+class QuizScreen extends Component {
 
-    onSettingsPressHandler = () => {
-        this.props.navigation.navigate('Settings');
-    }
 
     render() {
+        const { quiz_id } = this.props.navigation.state.params;
 
         navBarOptions = {
             title: {
-                text: ServiceFacade.getTranslation('Menu.profile'),
-            },
-            rightButton: {
-                icon: <Ionicons name='ios-cog' size={30} color={Colors.DARK} />,
-                handler: this.onSettingsPressHandler,
+                text: ServiceFacade.getTranslation('Deck.quiz'),
             },
         }
 
         return (
             <View style={styles.container} >
-                <CustomNavigationBar options={navBarOptions}/>
+                <CustomNavigationBar options={navBarOptions} />
+
+                
             </View>
         );
     };
 }
-export default ProfileScreen;
+export default QuizScreen;

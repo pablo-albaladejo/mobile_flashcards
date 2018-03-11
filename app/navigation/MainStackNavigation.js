@@ -11,9 +11,7 @@ const MainStackNavigation = StackNavigator({
     CreateDeck:{
         screen: CreateDeckScreen,
     },
-    Decks: {
-        screen: DeckStackNavigation,
-    }
+
 },
     {
         initialRouteName: 'Tabs',

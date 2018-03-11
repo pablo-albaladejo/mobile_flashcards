@@ -3,11 +3,14 @@ import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 
 import { Card } from 'react-native-elements'
 
+import Colors from '../../constants/Colors';
 import Layout from '../../constants/Layout';
+
 const { width, height } = Layout.window;
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: Colors.secondary,
     }
 });
 class DeckPreview extends Component {
@@ -22,7 +25,7 @@ class DeckPreview extends Component {
             <TouchableOpacity
                 onPress={this.handleOnPress}
             >
-                <Card style={styles.container}>
+                <Card containerStyle={styles.container}>
                     <Text>{name}</Text>
                     <Text>{numCards}</Text>
                 </Card>

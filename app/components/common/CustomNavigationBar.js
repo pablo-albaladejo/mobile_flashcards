@@ -10,11 +10,6 @@ const { height, width } = Layout.window;
 
 var styles = StyleSheet.create({
 
-    header: {
-        borderBottomWidth: 1,
-        borderColor: Colors.DARK_LIGHT,
-    },
-
     leftButton: {
         width: width * 0.25,
         justifyContent: 'flex-end',
@@ -64,7 +59,7 @@ class CustomNavigationBar extends Component {
         const { leftButton, title, rightButton } = this.props.options;
         return (
             <NavigationBar
-
+                tintColor={Colors.primary}
                 leftButton={
                     (leftButton && (
                         <TouchableOpacity onPress={leftButton.handler} style={leftButton.style || styles.leftButton}>
