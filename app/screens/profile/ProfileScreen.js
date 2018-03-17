@@ -27,7 +27,7 @@ class ProfileScreen extends Component {
                 text: ServiceFacade.getTranslation('Menu.profile'),
             },
             rightButton: {
-                icon: <Ionicons name='ios-cog' size={30} color={Colors.DARK} />,
+                icon: <Ionicons name='ios-cog' size={30} color={Colors.dark} />,
                 handler: this.onSettingsPressHandler,
             },
         }

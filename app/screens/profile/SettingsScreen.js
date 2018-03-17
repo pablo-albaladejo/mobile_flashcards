@@ -24,7 +24,7 @@ class SettingsScreen extends Component {
 
         navBarOptions = {
             leftButton: {
-                icon: <Ionicons name='ios-arrow-back' size={30} color={Colors.DARK} />,
+                icon: <Ionicons name='ios-arrow-back' size={30} color={Colors.dark} />,
                 handler: this.onBackPressHandler,
             },
             title: {
