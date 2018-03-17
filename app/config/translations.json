@@ -12,6 +12,13 @@
             "add_card": "Add card",
             "start_quiz": "Start quiz",
             "quiz": "Quiz"            
+        },
+        "Quiz":{
+            "next": "Next",
+            "warning": "Warning",
+            "progress_lost": "Your current progress will be lost",
+            "ok": "Ok",
+            "cancel": "Cancel"
         }
     }
 }

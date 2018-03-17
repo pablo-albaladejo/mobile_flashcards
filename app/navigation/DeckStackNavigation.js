@@ -16,6 +16,9 @@ const DeckStackNavigation = StackNavigator({
     },
     Quiz: {
         screen: QuizScreen,
+        navigationOptions: {
+            gesturesEnabled: false,
+        }
     }
 },
     {
