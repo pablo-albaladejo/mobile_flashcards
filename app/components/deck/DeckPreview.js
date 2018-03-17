@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
 class DeckPreview extends Component {
 
     handleOnPress = () => {
-        this.props.onPress(this.props.index);
+        this.props.onPress(this.props.item.key);
     }
 
     render() {
-        const { name, numCards } = this.props;
+        const { name, numCards } = this.props.item;
         return (
             <TouchableOpacity
                 onPress={this.handleOnPress}

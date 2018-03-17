@@ -23,10 +23,10 @@ class DeckList extends Component {
             <FlatList
                 contentContainerStyle={styles.container}
                 data={items}
+                keyExtractor={(item, index) => index}
                 renderItem={({ item, index }) =>
                     <DeckPreview
-                        {...item}
-                        index={index}
+                        item={item}
                         onPress={onPressItem}
                     />
                 }

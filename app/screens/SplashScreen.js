@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 
+import { connect } from 'react-redux';
+import { deckLoadList } from '../actions/deck';
+
 import Colors from '../constants/Colors';
+import ServiceFacade from '../services/ServiceFacade';
 
 var styles = StyleSheet.create({
     container: {
@@ -21,10 +25,14 @@ var styles = StyleSheet.create({
 class SplashScreen extends Component {
 
     componentDidMount() {
-        
+
         //fake some delay for init process
         timeout = __DEV__ ? 1000 : 3000;
         setTimeout(() => {
+
+            //Redux
+            this.props.dispatch(deckLoadList());
+
             const resetAction = NavigationActions.reset({
                 index: 0,
                 key: null,
@@ -51,4 +59,4 @@ class SplashScreen extends Component {
         );
     }
 }
-export default SplashScreen;
+export default connect()(SplashScreen);

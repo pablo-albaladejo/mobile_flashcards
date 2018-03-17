@@ -130,9 +130,13 @@ class QuizScreen extends Component {
         });
     }
 
-    render() {
-        const { quiz_id } = this.props.navigation.state.params;
+    onFinishHandler = () => {
+        this.props.onFinishHandler(this.props.id,this.state.correctAnswered);
+        this.props.navigation.goBack();
+    }
 
+    render() {
+    
         navBarOptions = {
             title: {
                 text: ServiceFacade.getTranslation('Deck.quiz'),
@@ -143,6 +147,11 @@ class QuizScreen extends Component {
             },
         }
 
+        this.props = {
+            ...this.props,
+            ...this.props.navigation.state.params
+        }
+        
         return (
             <View style={styles.container} >
 

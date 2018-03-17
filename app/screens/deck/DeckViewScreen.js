@@ -3,6 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Card, Text, Button } from 'react-native-elements';
 
+import { connect } from 'react-redux';
+import { deckRemove } from '../../actions/deck';
 import ServiceFacade from '../../services/ServiceFacade';
 import CustomNavigationBar from '../../components/common/CustomNavigationBar';
 
@@ -50,25 +52,30 @@ const styles = StyleSheet.create({
     },
     quiz_button: {
         backgroundColor: Colors.warning,
+    },
+    delete_button: {
+        backgroundColor: Colors.danger,
     }
 
 });
 
 class DeckViewScreen extends Component {
 
-    state = {
-        id: '123',
-        name: 'Name',
-        numOfCars: '5',
-    }
-
-
     onBackPressHandler = () => {
         this.props.navigation.goBack();
     }
 
     quizOnPressHandler = () => {
-        this.props.navigation.navigate('Quiz', { id: this.state.id });
+        
+        this.props.navigation.navigate('Quiz', { 
+            id: this.props.item.id,
+            onFinishHandler: this.props.onFinishHandler,
+        });
+    }
+
+    quizDeleteHandler = () => {
+        this.props.navigation.goBack();
+        this.props.onDeleteQuiz(this.props.item.id);
     }
 
     render() {
@@ -83,6 +90,11 @@ class DeckViewScreen extends Component {
             }
         }
 
+        this.props = {
+            ...this.props,
+            ...this.props.navigation.state.params
+        }
+        
         return (
             <View style={styles.container}>
                 <CustomNavigationBar options={navBarOptions} />
@@ -90,8 +102,8 @@ class DeckViewScreen extends Component {
                 <Card containerStyle={styles.content} >
 
                     <View style={styles.headers}>
-                        <Text h1 style={styles.title}>{this.state.name}</Text>
-                        <Text h2 style={styles.subtitle}>{this.state.numOfCars + " " + ServiceFacade.getTranslation('Deck.cards')}</Text>
+                        <Text h1 style={styles.title}>{this.props.item.name}</Text>
+                        <Text h2 style={styles.subtitle}>{this.props.item.numCards + " " + ServiceFacade.getTranslation('Deck.cards')}</Text>
                     </View>
 
                     <View style={styles.buttons} >
@@ -104,6 +116,12 @@ class DeckViewScreen extends Component {
                             onPress={this.quizOnPressHandler}
                             buttonStyle={[styles.button, styles.quiz_button]}
                             text={ServiceFacade.getTranslation('Deck.start_quiz')}
+                        />
+
+                        <Button
+                            onPress={this.quizDeleteHandler}
+                            buttonStyle={[styles.button, styles.delete_button]}
+                            text={ServiceFacade.getTranslation('Deck.delete')}
                         />
                     </View>
 

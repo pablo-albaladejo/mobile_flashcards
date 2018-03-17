@@ -1,8 +1,9 @@
 import i18nService from './i18nService';
+import StorageService from './StorageService';
 
 class ServiceFacade {
 
-    static initServices(){
+    static initServices() {
 
         /* i18n */
         Expo.Util.getCurrentLocaleAsync().then(currentLocale => {
@@ -20,6 +21,14 @@ class ServiceFacade {
     }
     static getCurrentLocale() {
         return i18nService.getInstance().getLocale();
+    }
+
+    static updateStatistics(numOfCards, score) {
+        return StorageService.getInstance().updateStatistics(numOfCards, score);
+    }
+
+    static getDecks() {
+        return StorageService.getInstance().getDecks();
     }
 }
 export default ServiceFacade;

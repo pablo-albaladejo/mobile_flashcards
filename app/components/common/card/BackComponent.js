@@ -67,8 +67,6 @@ class BackComponent extends Component {
 
     render() {
 
-        console.log(this.state.isCorrect);
-
         return (
             <View style={styles.container}>
 
