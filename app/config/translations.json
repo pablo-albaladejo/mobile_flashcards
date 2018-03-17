@@ -18,7 +18,14 @@
             "warning": "Warning",
             "progress_lost": "Your current progress will be lost",
             "ok": "Ok",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "correct": "Correct",
+            "incorrect": "Incorrect",
+            "question": "Question",
+            "answer": "Answer",
+            "flip": "Flip",
+            "score": "Score",
+            "finish": "Finish"
         }
     }
 }
