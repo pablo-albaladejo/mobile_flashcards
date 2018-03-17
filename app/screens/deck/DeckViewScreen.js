@@ -10,11 +10,19 @@ import Colors from '../../constants/Colors';
 import Layout from '../../constants/Layout';
 
 const { width, height } = Layout.window;
+const verticalMargin = height * 0.02;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+
+    content: {
+        flex: 1,
+        marginTop: verticalMargin,
+        marginBottom: verticalMargin,
+    },
+
 
     headers: {
 
@@ -48,19 +56,26 @@ const styles = StyleSheet.create({
 
 class DeckViewScreen extends Component {
 
+    state = {
+        id: '123',
+        name: 'Name',
+        numOfCars: '5',
+    }
+
+
     onBackPressHandler = () => {
         this.props.navigation.goBack();
     }
 
     quizOnPressHandler = () => {
-        this.props.navigation.navigate('Quiz', { "quiz_id": 123 });
+        this.props.navigation.navigate('Quiz', { id: this.state.id });
     }
 
     render() {
 
         navBarOptions = {
             leftButton: {
-                icon: <Ionicons name='ios-arrow-back' size={30} color={Colors.DARK} />,
+                icon: <Ionicons name='ios-arrow-back' size={30} color={Colors.dark} />,
                 handler: this.onBackPressHandler,
             },
             title: {
@@ -69,13 +84,14 @@ class DeckViewScreen extends Component {
         }
 
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.container}>
                 <CustomNavigationBar options={navBarOptions} />
 
-                <Card containerStyle={styles.container} >
+                <Card containerStyle={styles.content} >
+
                     <View style={styles.headers}>
-                        <Text h1 style={styles.title}>Name</Text>
-                        <Text h2 style={styles.subtitle}>1 {ServiceFacade.getTranslation('Deck.cards')}</Text>
+                        <Text h1 style={styles.title}>{this.state.name}</Text>
+                        <Text h2 style={styles.subtitle}>{this.state.numOfCars + " " + ServiceFacade.getTranslation('Deck.cards')}</Text>
                     </View>
 
                     <View style={styles.buttons} >
