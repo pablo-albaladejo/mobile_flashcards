@@ -7,7 +7,7 @@ import DeckStackNavigation from './DeckStackNavigation';
 import ProfileStackNavigation from './ProfileStackNavigation';
 
 const TabsNavigation = TabNavigator({
-    Decks: {
+    DeckList: {
         screen: DeckStackNavigation,
     },
     Modal: {

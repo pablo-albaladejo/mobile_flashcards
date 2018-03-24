@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     }
 });
 
-class DecksScreen extends Component {
+class DeckListScreen extends Component {
 
     handleOnItemPress = (item) => {
         this.props.navigation.navigate("DeckView", {
@@ -115,4 +115,4 @@ function mapStateToProps(state) {
         items: decks,
     }
 }
-export default connect(mapStateToProps)(DecksScreen);
+export default connect(mapStateToProps)(DeckListScreen);

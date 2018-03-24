@@ -1,12 +1,12 @@
 import { StackNavigator } from 'react-navigation'
 
-import DecksScreen from '../screens/deck/DecksScreen';
+import DeckListScreen from '../screens/deck/DeckListScreen';
 import DeckViewScreen from '../screens/deck/DeckViewScreen';
 import QuizScreen from '../screens/deck/QuizScreen';
 
 const DeckStackNavigation = StackNavigator({
-    Decks: {
-        screen: DecksScreen,
+    DeckList: {
+        screen: DeckListScreen,
         navigationOptions: {
             tabBarVisible: true,
         }
@@ -22,7 +22,7 @@ const DeckStackNavigation = StackNavigator({
     }
 },
     {
-        initialRouteName: 'Decks',
+        initialRouteName: 'DeckList',
         headerMode: 'none',
         navigationOptions: {
             tabBarVisible: false,

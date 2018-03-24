@@ -31,7 +31,7 @@ class CustomTabBar extends Component {
 
     getIcon = (screen, color) => {
         switch (screen) {
-            case 'Decks':
+            case 'DeckList':
                 return <MaterialCommunityIcons name={'cards-outline'} size={25} color={color} />;
             case 'Profile':
                 return <Ionicons name={'ios-trophy-outline'} size={25} color={color} />;
