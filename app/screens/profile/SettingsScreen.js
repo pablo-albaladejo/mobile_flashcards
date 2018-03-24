@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
+
+import { Button, Text } from 'react-native-elements';
+
+import { connect } from 'react-redux';
+import { deckLoadList } from '../../actions/deck';
 
 import { Ionicons } from 'react-native-vector-icons';
 
@@ -20,6 +25,31 @@ class SettingsScreen extends Component {
         this.props.navigation.goBack();
     }
 
+    onClearHandler = () => {
+        ServiceFacade.clearData()
+        .then(() => {
+            this.props.dispatch(deckLoadList());
+
+            Alert.alert(
+                ServiceFacade.getTranslation("Settings.success"),
+                ServiceFacade.getTranslation("Settings.data_cleared"),
+                [
+                    { text: ServiceFacade.getTranslation("Settings.data_cleared_ok") },
+                ]
+            )
+            
+        })
+        .catch(err => {
+            Alert.alert(
+                ServiceFacade.getTranslation("Settings.error"),
+                ServiceFacade.getTranslation("Settings.data_cleared_error"),
+                [
+                    { text: ServiceFacade.getTranslation("Settings.data_cleared_error_ok") },
+                ]
+            )
+        });
+    }
+
     render() {
 
         navBarOptions = {
@@ -35,8 +65,17 @@ class SettingsScreen extends Component {
         return (
             <View style={styles.container} >
                 <CustomNavigationBar options={navBarOptions}/>
+
+                <View style={styles.buttons}>
+                    {/* Clear data */}
+                    <Button
+                        onPress={this.onClearHandler}
+                        //buttonStyle={[styles.button, styles.flip_button]}
+                        text={ServiceFacade.getTranslation('Settings.clear_data')}
+                    />
+                </View>
             </View>
         );
     };
 }
-export default SettingsScreen;
+export default connect()(SettingsScreen);

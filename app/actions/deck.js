@@ -1,25 +1,55 @@
 import ServiceFacade from "../services/ServiceFacade";
 
 export const DECK_ADD = 'DECK_ADD';
-export function deckAdd(deck) {
+export const deckAdd = (title) => dispatch => (
+    ServiceFacade.addDeck(title)
+        .then(decks => {
+            dispatch(deckAddSync(decks));
+        }).catch(err => {
+            console.warn(err);
+            dispatch(deckAddSync({}));
+        })
+);
+function deckAddSync(decks) {
     return {
         type: DECK_ADD,
-        deck,
+        decks,
     }
 }
 
 export const DECK_REMOVE = 'DECK_REMOVE';
-export function deckRemove(id) {
+export const deckRemove = (id) => dispatch => (
+    ServiceFacade.removeDeck(id)
+        .then(decks => {
+            console.log(decks);
+            dispatch(deckRemoveSync(decks));
+        }).catch(err => {
+            console.warn(err);
+            dispatch(deckRemoveSync({}));
+        })
+);
+
+function deckRemoveSync(decks) {
     return {
         type: DECK_REMOVE,
-        id,
+        decks,
     }
 }
 
 export const DECK_LOAD_LIST = 'DECK_LOAD_LIST';
-export function deckLoadList() {
+
+export const deckLoadList = () => dispatch => (
+    ServiceFacade.getDecks()
+        .then(decks => {
+            dispatch(deckLoadListSync(decks));
+        }).catch(err => {
+            console.warn(err);
+            dispatch(deckLoadListSync({}));
+        })
+);
+function deckLoadListSync(decks) {
     return {
         type: DECK_LOAD_LIST,
-        decks: ServiceFacade.getDecks(),
+        decks,
     }
 }

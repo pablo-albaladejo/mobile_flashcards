@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 
-import { Card } from 'react-native-elements'
+import { Card, Text } from 'react-native-elements';
+
+import ServiceFacade from '../../services/ServiceFacade';
 
 import Colors from '../../constants/Colors';
 import Layout from '../../constants/Layout';
-
 const { width, height } = Layout.window;
 
 const styles = StyleSheet.create({
@@ -16,18 +17,18 @@ const styles = StyleSheet.create({
 class DeckPreview extends Component {
 
     handleOnPress = () => {
-        this.props.onPress(this.props.item.key);
+        this.props.onPress(this.props.item);
     }
 
     render() {
-        const { name, numCards } = this.props.item;
+        const { title, numCards } = this.props.item;
         return (
             <TouchableOpacity
                 onPress={this.handleOnPress}
             >
                 <Card containerStyle={styles.container}>
-                    <Text>{name}</Text>
-                    <Text>{numCards}</Text>
+                    <Text h4>{title}</Text>
+                    <Text>{numCards + " " +ServiceFacade.getTranslation("Deck.cards")}</Text>
                 </Card>
             </TouchableOpacity>
 

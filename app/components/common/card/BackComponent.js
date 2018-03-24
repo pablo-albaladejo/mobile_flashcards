@@ -83,7 +83,7 @@ class BackComponent extends Component {
                 <View style={styles.buttons}>
 
                     {/* Hide on answered and incorrect */}
-                    {(!this.state.isAnswered || (this.state.isAnswered && !this.state.isCorrect)) && (
+                    {(!this.state.isAnswered || (this.state.isAnswered && this.state.isCorrect)) && (
                         <Button
                             disabled={this.state.isAnswered}
                             onPress={() => {
@@ -99,7 +99,7 @@ class BackComponent extends Component {
                     )}
 
                     {/* Hide on answered and correct */}
-                    {(!this.state.isAnswered || (this.state.isAnswered && this.state.isCorrect)) && (
+                    {(!this.state.isAnswered || (this.state.isAnswered && !this.state.isCorrect)) && (
                         <Button
                             disabled={this.state.isAnswered}
                             onPress={() => {

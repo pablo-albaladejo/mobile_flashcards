@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { Card, Text, Button } from 'react-native-elements';
 
@@ -74,8 +74,17 @@ class DeckViewScreen extends Component {
     }
 
     quizDeleteHandler = () => {
-        this.props.navigation.goBack();
-        this.props.onDeleteQuiz(this.props.item.id);
+        Alert.alert(
+            ServiceFacade.getTranslation("Deck.warning"),
+            ServiceFacade.getTranslation("Deck.delete_deck"),
+            [
+                { text: ServiceFacade.getTranslation("Deck.ok"), onPress: () => {
+                    this.props.navigation.goBack();
+                    this.props.onDeleteQuiz(this.props.item.id);
+                }},
+                { text: ServiceFacade.getTranslation("Deck.cancel"), style: 'cancel' },
+            ]
+        );
     }
 
     render() {
@@ -102,7 +111,7 @@ class DeckViewScreen extends Component {
                 <Card containerStyle={styles.content} >
 
                     <View style={styles.headers}>
-                        <Text h1 style={styles.title}>{this.props.item.name}</Text>
+                        <Text h1 style={styles.title}>{this.props.item.title}</Text>
                         <Text h2 style={styles.subtitle}>{this.props.item.numCards + " " + ServiceFacade.getTranslation('Deck.cards')}</Text>
                     </View>
 

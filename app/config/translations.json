@@ -2,19 +2,25 @@
     "en": {
         "Menu": {
             "decks": "Decks",
+            "no_decks": "There is no decks",
+            "create_first": "Create your first one",
             "deck": "Deck",
             "create_deck": "Create deck",
             "profile": "Profile",
             "settings": "Settings"
         },
-        "Deck":{
+        "Deck": {
             "cards": "cards",
             "add_card": "Add card",
             "start_quiz": "Start quiz",
             "delete": "Delete quiz",
-            "quiz": "Quiz"            
+            "quiz": "Quiz",
+            "warning": "Warning",
+            "delete_deck": "Do you really want to delete this deck?",
+            "cancel": "Cancel",
+            "ok": "Ok"
         },
-        "Quiz":{
+        "Quiz": {
             "next": "Next",
             "warning": "Warning",
             "progress_lost": "Your current progress will be lost",
@@ -27,6 +33,22 @@
             "flip": "Flip",
             "score": "Score",
             "finish": "Finish"
+        },
+        "CreateDeck": {
+            "title": "What is the title of your new deck?",
+            "create": "Create",
+            "error": "Error",
+            "title_not_empty": "The title can not be empty",
+            "title_not_empty_ok": "Ok"
+        },
+        "Settings": {
+            "clear_data": "Clear data",
+            "success": "Success",
+            "data_cleared": "Data cleared successfully",
+            "data_cleared_ok": "Ok",
+            "error": "Error",
+            "data_cleared_error": "Something went wrong",
+            "data_cleared_error_ok": "Ok"
         }
     }
 }

@@ -1,30 +1,57 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Text, Button } from 'react-native-elements';
 
 import { connect } from 'react-redux';
+import { deckRemove } from '../../actions/deck';
 
 import ServiceFacade from '../../services/ServiceFacade';
 import CustomNavigationBar from '../../components/common/CustomNavigationBar';
 import DeckList from '../../components/deck/DeckList';
-import { deckRemove } from '../../actions/deck';
+
+import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
+const { width, height } = Layout.window;
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
+        flex: 1,
+    },
+
+    content: {
+        flex: 1,
+    },
+
+    no_decks: {
+        flex: 1,
+        justifyContent: 'space-around',
+        alignSelf: 'center',
+    },
+    no_decks_text: {
+        textAlign: 'center',
+    },
+
+    button: {
+        backgroundColor: Colors.primary,
+        width: width * 0.5
     }
 });
 
 class DecksScreen extends Component {
 
-    handleOnItemPress = (key) => {
+    handleOnItemPress = (item) => {
         this.props.navigation.navigate("DeckView", {
-            item: this.props.items[0],
+            item,
             onDeleteQuiz: (id) => this.props.dispatch(deckRemove(id)),
             onFinishHandler: (id, rightAnswers) => {
                 console.log(id);
                 console.log(rightAnswers);
             }
         });
+    }
+
+    onCreateDeckPress = () => {
+        this.props.navigation.navigate("CreateDeck");
     }
 
     render() {
@@ -39,22 +66,53 @@ class DecksScreen extends Component {
             ...this.props,
             ...this.props.navigation.state.params
         }
-
         return (
             <View style={styles.container} >
+
+                {/* Nav Bar */}
                 <CustomNavigationBar options={navBarOptions} />
-                <DeckList
-                    items={this.props.items}
-                    onPressItem={this.handleOnItemPress}
-                />
+
+                {/* Content */}
+                <View style={styles.content}>
+                    {/* Deck list is empty */}
+                    {this.props.items.length == 0 && (
+                        <View style={styles.no_decks}>
+
+                            {/* Title */}
+                            <Text h3 style={styles.no_decks_text}>{ServiceFacade.getTranslation("Menu.no_decks")}</Text>
+
+                            {/* Action button */}
+                            <Button
+                                buttonStyle={styles.button}
+                                onPress={this.onCreateDeckPress}
+                                text={ServiceFacade.getTranslation("Menu.create_first")}
+                            />
+                        </View>
+                    )}
+
+                    {/* Deck list */}
+                    <DeckList
+                        items={this.props.items}
+                        onPressItem={this.handleOnItemPress}
+                    />
+                </View>
+
             </View>
         );
     };
 }
 
 function mapStateToProps(state) {
+    let decks = [];
+
+    Object.keys(state.deck).forEach(key => {
+        item = state.deck[key];
+        item.id = key;
+        decks.push(item);
+    });
+
     return {
-        items: state.deck,
+        items: decks,
     }
 }
 export default connect(mapStateToProps)(DecksScreen);
