@@ -2,14 +2,13 @@ import { AsyncStorage } from 'react-native'
 
 const FLASHCARDS_STORAGE_KEY = 'MobileFlashcards';
 const DECKS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':decks';
+const CARDS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':cards';
 
 class StorageService {
 
     static _instance = null;
-    idGenerator = null;
 
     constructor() {
-        this.idGenerator = new IDGenerator();
     }
 
     static getInstance() {
@@ -23,12 +22,12 @@ class StorageService {
 
     }
 
-    getDecks() {
+    getEntity(entity) {
         return new Promise((resolve, reject) => {
-            AsyncStorage.getItem(DECKS_STORAGE_KEY)
+            AsyncStorage.getItem(entity)
                 .then(json => {
                     //when no items at storage, json object is null
-                    json ? resolve(JSON.parse(json)): resolve({});
+                    json ? resolve(JSON.parse(json)) : resolve({});
                 })
                 .catch(err => {
                     console.warn(err);
@@ -36,8 +35,52 @@ class StorageService {
         });
     }
 
-    getDeck(id) {
+    getDecks() {
+        return this.getEntity(DECKS_STORAGE_KEY);
+    }
 
+    getCards() {
+        return this.getEntity(CARDS_STORAGE_KEY);
+    }
+
+
+    getDeck(id) {
+        return new Promise((resolve, reject) => {
+            this.getDecks()
+                .then(decks => {
+                    resolve(decks[id]);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    removeCards(card_ids) {
+        return new Promise((resolve, reject) => {
+
+            //load current stored cards
+            this.getCards()
+                .then(cards => {
+
+                    //delete cards by id
+                    card_ids.forEach(card_id => {
+                        cards[card_id] = null;
+                        delete cards[card_id];
+                    });
+
+                    //save current state
+                    AsyncStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(cards))
+                    .then(() => {
+                        resolve(cards);
+                    }).catch(err => {
+                        reject(err);
+                    });
+
+                }).catch(err => {
+                    reject(err);
+                });
+        });
     }
 
     removeDeck(id) {
@@ -46,15 +89,22 @@ class StorageService {
             //get the current state
             this.getDecks()
                 .then(decks => {
+
+                    //delete associated cards
+                    let removeCardsPromise = this.removeCards(decks[id].cards);
+
                     //delete the item
                     decks[id] = null;
                     delete decks[id];
-                    
-                    //save the state
-                    AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
-                        .then(() => {
-                            //return the state
-                            resolve(decks);
+
+                    let removeDecksPromise = AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+
+                    Promise.all([removeDecksPromise, removeCardsPromise])
+                        .then(result => {
+                            resolve({
+                                decks,
+                                cards: result[1]
+                            });
                         })
                         .catch(err => {
                             reject(err);
@@ -66,12 +116,12 @@ class StorageService {
         });
     }
 
-    addDeck(title) {
+    addDeck(id, title) {
         return new Promise((resolve, reject) => {
             AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
-                [this.idGenerator.generate()]: {
+                [id]: {
                     title,
-                    numCards: 0,
+                    cards: [],
                 }
             }))
                 .then(() => {
@@ -83,37 +133,77 @@ class StorageService {
         });
     }
 
-    addCardToDeck(deck_id, question, answer) {
+    addCardToDeck(deck_id, card_id, question, answer) {
+        return new Promise((resolve, reject) => {
 
+            this.getDeck(deck_id)
+                .then(deck => {
+
+                    //create the card object
+                    let card = {
+                        question,
+                        answer
+                    };
+
+                    //link card_id to deck
+                    deck.cards.push(card_id);
+
+                    //save at the storage                    
+                    let saveCardPromise =
+                        AsyncStorage.mergeItem(CARDS_STORAGE_KEY, JSON.stringify({
+                            [card_id]: card,
+                        }));
+
+                    let saveDeckPromise =
+                        AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+                            [deck_id]: deck,
+                        }));
+
+                    Promise.all([saveDeckPromise, saveCardPromise])
+                        .then(() => {
+                            //load current state
+                            Promise.all([this.getDecks(), this.getCards()])
+                                .then(results => {
+                                    resolve({
+                                        decks: results[0],
+                                        cards: results[1],
+                                    });
+                                }).catch(err => {
+                                    reject(err);
+                                });
+
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    loadData() {
+        return new Promise((resolve, reject) => {
+            Promise.all([this.getDecks(), this.getCards()])
+                .then(results => {
+                    resolve({
+                        decks: results[0],
+                        cards: results[1],
+                    });
+                }).catch(err => {
+                    reject(err);
+                });
+        });
     }
 
     clearData() {
-        return AsyncStorage.removeItem(DECKS_STORAGE_KEY);
+
+        return Promise.all([
+            AsyncStorage.removeItem(DECKS_STORAGE_KEY),
+            AsyncStorage.removeItem(CARDS_STORAGE_KEY),
+            AsyncStorage.removeItem(FLASHCARDS_STORAGE_KEY),
+        ]);
     }
 }
 export default StorageService;
-
-
-//https://codepen.io/gabrieleromanato/pen/Jgoab?
-function IDGenerator() {
-
-    this.length = 8;
-    this.timestamp = +new Date;
-
-    var _getRandomInt = function (min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    this.generate = function () {
-        var ts = this.timestamp.toString();
-        var parts = ts.split("").reverse();
-        var id = "";
-
-        for (var i = 0; i < this.length; ++i) {
-            var index = _getRandomInt(0, parts.length - 1);
-            id += parts[index];
-        }
-
-        return id;
-    }
-}

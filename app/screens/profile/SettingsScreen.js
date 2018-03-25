@@ -4,7 +4,7 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-import { deckLoadList } from '../../actions/deck';
+import { clearData } from '../../actions';
 
 import { Ionicons } from 'react-native-vector-icons';
 
@@ -26,7 +26,7 @@ class SettingsScreen extends Component {
     }
 
     onClearHandler = () => {
-        ServiceFacade.clearData()
+/*         ServiceFacade.clearData()
         .then(() => {
             this.props.dispatch(deckLoadList());
 
@@ -47,7 +47,9 @@ class SettingsScreen extends Component {
                     { text: ServiceFacade.getTranslation("Settings.data_cleared_error_ok") },
                 ]
             )
-        });
+        }); */
+
+        this.props.dispatch(clearData());
     }
 
     render() {

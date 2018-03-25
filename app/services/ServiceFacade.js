@@ -1,5 +1,6 @@
 import i18nService from './i18nService';
 import StorageService from './StorageService';
+import UtilsService from './UtilsService';
 
 class ServiceFacade {
 
@@ -32,19 +33,28 @@ class ServiceFacade {
     static getDeck(id) {
         return StorageService.getInstance().getDeck(id);
     }
-    static addDeck(title) {
-        return StorageService.getInstance().addDeck(title);
+    static addDeck(id, title) {
+        return StorageService.getInstance().addDeck(id, title);
     }
     static removeDeck(id) {
         return StorageService.getInstance().removeDeck(id);
     }
-    static addCardToDeck(deck_id, question, answer) { 
-        return StorageService.getInstance().addCardToDeck(deck_id, question, answer);
+    static addCardToDeck(deck_id, card_id, question, answer) { 
+        return StorageService.getInstance().addCardToDeck(deck_id, card_id, question, answer);
     }
 
-    /* Settings */
+    /* Common */
+    static loadData(){
+        return StorageService.getInstance().loadData();
+    }
     static clearData(){
         return StorageService.getInstance().clearData();
     }
+
+    /* Utils */
+    static generateID(){
+        return UtilsService.getInstance().generateID();
+    }
+
 }
 export default ServiceFacade;

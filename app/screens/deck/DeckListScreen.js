@@ -41,8 +41,7 @@ class DeckListScreen extends Component {
 
     handleOnItemPress = (item) => {
         this.props.navigation.navigate("DeckView", {
-            item,
-            onDeleteQuiz: (id) => this.props.dispatch(deckRemove(id)),
+            deck_id: item.id,
             onFinishHandler: (id, rightAnswers) => {
                 console.log(id);
                 console.log(rightAnswers);
@@ -66,6 +65,7 @@ class DeckListScreen extends Component {
             ...this.props,
             ...this.props.navigation.state.params
         }
+
         return (
             <View style={styles.container} >
 

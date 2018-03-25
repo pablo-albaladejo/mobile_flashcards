@@ -3,6 +3,7 @@ import { StackNavigator } from 'react-navigation'
 import DeckListScreen from '../screens/deck/DeckListScreen';
 import DeckViewScreen from '../screens/deck/DeckViewScreen';
 import QuizScreen from '../screens/deck/QuizScreen';
+import AddCardScreen from '../screens/deck/AddCardScreen';
 
 const DeckStackNavigation = StackNavigator({
     DeckList: {
@@ -19,6 +20,9 @@ const DeckStackNavigation = StackNavigator({
         navigationOptions: {
             gesturesEnabled: false,
         }
+    },
+    AddCard: {
+        screen: AddCardScreen,
     }
 },
     {

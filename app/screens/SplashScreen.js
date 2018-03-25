@@ -3,7 +3,7 @@ import { View, StyleSheet, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 
 import { connect } from 'react-redux';
-import { deckLoadList } from '../actions/deck';
+import { loadData } from '../actions';
 
 import Colors from '../constants/Colors';
 import ServiceFacade from '../services/ServiceFacade';
@@ -31,7 +31,7 @@ class SplashScreen extends Component {
         setTimeout(() => {
 
             //Redux
-            this.props.dispatch(deckLoadList());
+            this.props.dispatch(loadData());
 
             const resetAction = NavigationActions.reset({
                 index: 0,

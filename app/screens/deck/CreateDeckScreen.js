@@ -107,7 +107,7 @@ class CreateDeckScreen extends Component {
                     {/* Submit button */}
                     <Button
                         onPress={this.onSaveHandler}
-                        buttonStyle={[styles.button, styles.flip_button]}
+                        buttonStyle={styles.button}
                         text={ServiceFacade.getTranslation('CreateDeck.create')}
                     />
 

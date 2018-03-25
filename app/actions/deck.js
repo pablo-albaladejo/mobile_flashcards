@@ -1,15 +1,16 @@
 import ServiceFacade from "../services/ServiceFacade";
 
 export const DECK_ADD = 'DECK_ADD';
-export const deckAdd = (title) => dispatch => (
-    ServiceFacade.addDeck(title)
+export const deckAdd = (title) => dispatch => {
+    let deck_id = ServiceFacade.generateID();
+    ServiceFacade.addDeck(deck_id, title)
         .then(decks => {
             dispatch(deckAddSync(decks));
         }).catch(err => {
             console.warn(err);
             dispatch(deckAddSync({}));
-        })
-);
+        });
+};
 function deckAddSync(decks) {
     return {
         type: DECK_ADD,
@@ -20,36 +21,21 @@ function deckAddSync(decks) {
 export const DECK_REMOVE = 'DECK_REMOVE';
 export const deckRemove = (id) => dispatch => (
     ServiceFacade.removeDeck(id)
-        .then(decks => {
-            console.log(decks);
-            dispatch(deckRemoveSync(decks));
+        .then(result => {
+
+            console.log(result);
+
+            dispatch(deckRemoveSync(result.decks, result.cards));
         }).catch(err => {
             console.warn(err);
             dispatch(deckRemoveSync({}));
         })
 );
 
-function deckRemoveSync(decks) {
+function deckRemoveSync(decks, cards) {
     return {
         type: DECK_REMOVE,
         decks,
-    }
-}
-
-export const DECK_LOAD_LIST = 'DECK_LOAD_LIST';
-
-export const deckLoadList = () => dispatch => (
-    ServiceFacade.getDecks()
-        .then(decks => {
-            dispatch(deckLoadListSync(decks));
-        }).catch(err => {
-            console.warn(err);
-            dispatch(deckLoadListSync({}));
-        })
-);
-function deckLoadListSync(decks) {
-    return {
-        type: DECK_LOAD_LIST,
-        decks,
+        cards,
     }
 }

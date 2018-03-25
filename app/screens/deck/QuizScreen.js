@@ -6,6 +6,8 @@ import { Text } from 'react-native-elements';
 import { Ionicons } from 'react-native-vector-icons';
 import { Button } from 'react-native-elements';
 
+import { connect } from 'react-redux';
+
 import ServiceFacade from '../../services/ServiceFacade';
 import CustomNavigationBar from '../../components/common/CustomNavigationBar';
 import CardComponent from '../../components/common/card/CardComponent';
@@ -78,12 +80,6 @@ class QuizScreen extends Component {
         answeredCards: 0,
         canNext: false,
         correctAnswered: 0,
-        cards: [
-            {
-                "question": "question 1",
-                "answer": "answer 1"
-            },
-        ],
         showResume: false,
     }
 
@@ -106,7 +102,7 @@ class QuizScreen extends Component {
         //reset the card inner state to remove the previous one
         this.cardComponent.reset();
 
-        if (this.state.answeredCards + 1 == this.state.cards.length) {
+        if (this.state.answeredCards + 1 == this.props.cards.length) {
             //quiz finished
             this.setState({
                 canNext: false,
@@ -146,11 +142,6 @@ class QuizScreen extends Component {
                 handler: this.onCloseHandler,
             },
         }
-
-        this.props = {
-            ...this.props,
-            ...this.props.navigation.state.params
-        }
         
         return (
             <View style={styles.container} >
@@ -163,7 +154,7 @@ class QuizScreen extends Component {
                     <View style={styles.content}>
                         {/* Progress */}
                         <View style={styles.progress}>
-                            <Text>{this.state.answeredCards + 1 + " / " + this.state.cards.length}</Text>
+                            <Text>{this.state.answeredCards + 1 + " / " + this.props.cards.length}</Text>
                         </View>
 
                         {/* Current card */}
@@ -171,8 +162,8 @@ class QuizScreen extends Component {
                             <CardComponent
                                 ref={obj => this.cardComponent = obj}
                                 cardStyle={styles.card}
-                                question={this.state.cards[this.state.answeredCards].question}
-                                answer={this.state.cards[this.state.answeredCards].answer}
+                                question={this.props.cards[this.state.answeredCards].question}
+                                answer={this.props.cards[this.state.answeredCards].answer}
                                 onAnswer={this.onAnswerHandler}
                             />
                         </View>
@@ -198,7 +189,7 @@ class QuizScreen extends Component {
 
                         {/* Score */}
                         <Text h2 style={styles.score}>
-                            {this.state.correctAnswered + " / " + this.state.cards.length}
+                            {this.state.correctAnswered + " / " + this.props.cards.length}
                         </Text>
 
                         {/* Finish */}
@@ -214,4 +205,14 @@ class QuizScreen extends Component {
         );
     };
 }
-export default QuizScreen;
+function mapStateToProps(state, ownProps){
+    let deck_id = ownProps.navigation.state.params.deck_id;
+    let card_ids = state.deck[deck_id].cards;
+    
+    let cards = card_ids.map(card_id => state.card[card_id]);
+
+    return {
+        cards,
+    }
+}
+export default connect(mapStateToProps)(QuizScreen);

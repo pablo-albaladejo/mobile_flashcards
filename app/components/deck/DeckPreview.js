@@ -21,14 +21,14 @@ class DeckPreview extends Component {
     }
 
     render() {
-        const { title, numCards } = this.props.item;
+        const { title, cards } = this.props.item;
         return (
             <TouchableOpacity
                 onPress={this.handleOnPress}
             >
                 <Card containerStyle={styles.container}>
                     <Text h4>{title}</Text>
-                    <Text>{numCards + " " +ServiceFacade.getTranslation("Deck.cards")}</Text>
+                    <Text>{cards.length + " " +ServiceFacade.getTranslation("Deck.cards")}</Text>
                 </Card>
             </TouchableOpacity>
 

@@ -5,6 +5,7 @@ import { Card, Text, Button } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { deckRemove } from '../../actions/deck';
+
 import ServiceFacade from '../../services/ServiceFacade';
 import CustomNavigationBar from '../../components/common/CustomNavigationBar';
 
@@ -66,9 +67,9 @@ class DeckViewScreen extends Component {
     }
 
     quizOnPressHandler = () => {
-        
-        this.props.navigation.navigate('Quiz', { 
-            id: this.props.item.id,
+
+        this.props.navigation.navigate('Quiz', {
+            deck_id: this.props.deck_id,
             onFinishHandler: this.props.onFinishHandler,
         });
     }
@@ -78,13 +79,21 @@ class DeckViewScreen extends Component {
             ServiceFacade.getTranslation("Deck.warning"),
             ServiceFacade.getTranslation("Deck.delete_deck"),
             [
-                { text: ServiceFacade.getTranslation("Deck.ok"), onPress: () => {
-                    this.props.navigation.goBack();
-                    this.props.onDeleteQuiz(this.props.item.id);
-                }},
+                {
+                    text: ServiceFacade.getTranslation("Deck.ok"), onPress: () => {
+                        this.props.navigation.goBack();
+                        this.props.dispatch(deckRemove(this.props.deck_id));
+                    }
+                },
                 { text: ServiceFacade.getTranslation("Deck.cancel"), style: 'cancel' },
             ]
         );
+    }
+
+    onAddCardPressHandler = () => {
+        this.props.navigation.navigate("AddCard", {
+            deck_id: this.props.deck_id,
+        })
     }
 
     render() {
@@ -99,11 +108,6 @@ class DeckViewScreen extends Component {
             }
         }
 
-        this.props = {
-            ...this.props,
-            ...this.props.navigation.state.params
-        }
-        
         return (
             <View style={styles.container}>
                 <CustomNavigationBar options={navBarOptions} />
@@ -112,20 +116,23 @@ class DeckViewScreen extends Component {
 
                     <View style={styles.headers}>
                         <Text h1 style={styles.title}>{this.props.item.title}</Text>
-                        <Text h2 style={styles.subtitle}>{this.props.item.numCards + " " + ServiceFacade.getTranslation('Deck.cards')}</Text>
+                        <Text h2 style={styles.subtitle}>{this.props.item.cards.length + " " + ServiceFacade.getTranslation('Deck.cards')}</Text>
                     </View>
 
                     <View style={styles.buttons} >
                         <Button
+                            onPress={this.onAddCardPressHandler}
                             buttonStyle={[styles.button, styles.add_button]}
                             text={ServiceFacade.getTranslation('Deck.add_card')}
                         />
 
-                        <Button
-                            onPress={this.quizOnPressHandler}
-                            buttonStyle={[styles.button, styles.quiz_button]}
-                            text={ServiceFacade.getTranslation('Deck.start_quiz')}
-                        />
+                        {this.props.item.cards.length > 0 && (
+                            <Button
+                                onPress={this.quizOnPressHandler}
+                                buttonStyle={[styles.button, styles.quiz_button]}
+                                text={ServiceFacade.getTranslation('Deck.start_quiz')}
+                            />
+                        )}
 
                         <Button
                             onPress={this.quizDeleteHandler}
@@ -139,4 +146,12 @@ class DeckViewScreen extends Component {
         );
     }
 }
-export default DeckViewScreen;
+function mapStateToProps(state, ownProps) {
+    let deck_id = ownProps.navigation.state.params.deck_id;
+
+    return {
+        item: state.deck[deck_id] || { title: '', cards: [] },
+        deck_id,
+    }
+}
+export default connect(mapStateToProps)(DeckViewScreen);

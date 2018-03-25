@@ -20,6 +20,15 @@
             "cancel": "Cancel",
             "ok": "Ok"
         },
+        "Card": {
+            "title": "Create new card",
+            "create": "Create",
+            "question": "Enter the question",
+            "answer": "Enter the answer",
+            "error": "Error",
+            "all_required": "All fields are required",
+            "all_required_ok": "Ok"
+        },
         "Quiz": {
             "next": "Next",
             "warning": "Warning",
