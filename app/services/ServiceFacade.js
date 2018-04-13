@@ -22,10 +22,6 @@ class ServiceFacade {
         return i18nService.getInstance().getLocale();
     }
 
-    static updateStatistics(numOfCards, score) {
-        return StorageService.getInstance().updateStatistics(numOfCards, score);
-    }
-
     /* Decks */
     static getDecks() {
         return StorageService.getInstance().getDecks();
@@ -41,6 +37,11 @@ class ServiceFacade {
     }
     static addCardToDeck(deck_id, card_id, question, answer) { 
         return StorageService.getInstance().addCardToDeck(deck_id, card_id, question, answer);
+    }
+
+    /* Stats */
+    static updateStats(answered, correct) {
+        return StorageService.getInstance().updateStats(answered, correct);
     }
 
     /* Common */

@@ -4,14 +4,15 @@ export const LOAD_DATA = 'LOAD_DATA';
 export const loadData = () => dispatch => (
     ServiceFacade.loadData()
         .then(data => {
-            dispatch(loadDataSync(data.decks, data.cards));
+            dispatch(loadDataSync(data.decks, data.cards, data.stats));
         })
 );
-function loadDataSync(decks, cards) {
+function loadDataSync(decks, cards, stats) {
     return {
         type: LOAD_DATA,
         decks,
         cards,
+        stats,
     }
 }
 

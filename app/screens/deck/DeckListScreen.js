@@ -42,10 +42,6 @@ class DeckListScreen extends Component {
     handleOnItemPress = (item) => {
         this.props.navigation.navigate("DeckView", {
             deck_id: item.id,
-            onFinishHandler: (id, rightAnswers) => {
-                console.log(id);
-                console.log(rightAnswers);
-            }
         });
     }
 

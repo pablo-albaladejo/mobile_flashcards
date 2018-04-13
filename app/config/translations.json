@@ -58,6 +58,12 @@
             "error": "Error",
             "data_cleared_error": "Something went wrong",
             "data_cleared_error_ok": "Ok"
+        },
+        "Stats": {
+            "times_played": "Times played",
+            "answered": "Total card answered",
+            "correct": "Correct answers",
+            "accuracy": "Global accuracy"
         }
     }
 }

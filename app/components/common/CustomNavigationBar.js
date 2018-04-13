@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
 import Colors from '../../constants/Colors';
-import Layout from '../../constants/Layout';
+import Layout, { normalize } from '../../constants/Layout';
 
 const { height, width } = Layout.window;
 
@@ -18,15 +18,15 @@ var styles = StyleSheet.create({
         paddingBottom: height * 0.01
     },
     leftText: {
-        fontSize: 14,
+        fontSize: normalize(14),
     },
 
     title: {
         justifyContent: 'center',
         alignItems: 'flex-start'
     },
-    titleText:{
-        fontSize: 16,
+    titleText: {
+        fontSize: normalize(16),
         letterSpacing: 1
     },
     titleImage: {
@@ -34,7 +34,7 @@ var styles = StyleSheet.create({
         height: height * 0.06,
         marginTop: height * 0.02
     },
-    
+
     rightButton: {
         width: width * 0.25,
         justifyContent: 'flex-end',
@@ -47,14 +47,14 @@ var styles = StyleSheet.create({
         height: height * 0.12
     },
     rightText: {
-        fontSize: 14,
+        fontSize: normalize(14),
     },
 
 });
 
 
 class CustomNavigationBar extends Component {
-    
+
     render() {
         const { leftButton, title, rightButton } = this.props.options;
         return (
@@ -117,7 +117,7 @@ class CustomNavigationBar extends Component {
                             )}
 
                             {rightButton.icon && rightButton.icon}
-                            
+
                         </TouchableOpacity>
                     ))
                 }

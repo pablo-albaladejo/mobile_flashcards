@@ -7,6 +7,7 @@ import { Ionicons } from 'react-native-vector-icons';
 import { Button } from 'react-native-elements';
 
 import { connect } from 'react-redux';
+import { statsUpdate } from '../../actions/stats';
 
 import ServiceFacade from '../../services/ServiceFacade';
 import CustomNavigationBar from '../../components/common/CustomNavigationBar';
@@ -62,10 +63,10 @@ const styles = StyleSheet.create({
 
     //Resume
     score_title: {
-    
+
     },
     score: {
-    
+
     },
     finish_button: {
         width: width * 0.9,
@@ -107,6 +108,7 @@ class QuizScreen extends Component {
             this.setState({
                 canNext: false,
                 showResume: true,
+                answeredCards: this.state.answeredCards + 1,
             });
         } else {
             //next card
@@ -127,12 +129,12 @@ class QuizScreen extends Component {
     }
 
     onFinishHandler = () => {
-        this.props.onFinishHandler(this.props.id,this.state.correctAnswered);
+        this.props.onQuizFinished(this.state.answeredCards, this.state.correctAnswered);
         this.props.navigation.goBack();
     }
 
     render() {
-    
+
         navBarOptions = {
             title: {
                 text: ServiceFacade.getTranslation('Deck.quiz'),
@@ -142,7 +144,7 @@ class QuizScreen extends Component {
                 handler: this.onCloseHandler,
             },
         }
-        
+
         return (
             <View style={styles.container} >
 
@@ -205,14 +207,19 @@ class QuizScreen extends Component {
         );
     };
 }
-function mapStateToProps(state, ownProps){
+function mapStateToProps(state, ownProps) {
     let deck_id = ownProps.navigation.state.params.deck_id;
     let card_ids = state.deck[deck_id].cards;
-    
+
     let cards = card_ids.map(card_id => state.card[card_id]);
 
     return {
         cards,
     }
 }
-export default connect(mapStateToProps)(QuizScreen);
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        onQuizFinished: (answered, correct) => dispatch(statsUpdate(answered, correct)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(QuizScreen);

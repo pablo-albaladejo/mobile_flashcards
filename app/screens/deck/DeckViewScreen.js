@@ -67,10 +67,8 @@ class DeckViewScreen extends Component {
     }
 
     quizOnPressHandler = () => {
-
         this.props.navigation.navigate('Quiz', {
             deck_id: this.props.deck_id,
-            onFinishHandler: this.props.onFinishHandler,
         });
     }
 

@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native'
 const FLASHCARDS_STORAGE_KEY = 'MobileFlashcards';
 const DECKS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':decks';
 const CARDS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':cards';
+const STATS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':stats';
 
 class StorageService {
 
@@ -18,10 +19,6 @@ class StorageService {
         return this._instance;
     }
 
-    updateStatistics(numOfCards, score) {
-
-    }
-
     getEntity(entity) {
         return new Promise((resolve, reject) => {
             AsyncStorage.getItem(entity)
@@ -35,25 +32,9 @@ class StorageService {
         });
     }
 
-    getDecks() {
-        return this.getEntity(DECKS_STORAGE_KEY);
-    }
-
+    /* Cards */
     getCards() {
         return this.getEntity(CARDS_STORAGE_KEY);
-    }
-
-
-    getDeck(id) {
-        return new Promise((resolve, reject) => {
-            this.getDecks()
-                .then(decks => {
-                    resolve(decks[id]);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
     }
 
     removeCards(card_ids) {
@@ -71,13 +52,30 @@ class StorageService {
 
                     //save current state
                     AsyncStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(cards))
-                    .then(() => {
-                        resolve(cards);
-                    }).catch(err => {
-                        reject(err);
-                    });
+                        .then(() => {
+                            resolve(cards);
+                        }).catch(err => {
+                            reject(err);
+                        });
 
                 }).catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    /* Decks */
+    getDecks() {
+        return this.getEntity(DECKS_STORAGE_KEY);
+    }
+
+    getDeck(id) {
+        return new Promise((resolve, reject) => {
+            this.getDecks()
+                .then(decks => {
+                    resolve(decks[id]);
+                })
+                .catch(err => {
                     reject(err);
                 });
         });
@@ -183,13 +181,47 @@ class StorageService {
         });
     }
 
+    /* Stats */
+    getStats() {
+        return this.getEntity(STATS_STORAGE_KEY);
+    }
+
+    updateStats(answered, correct) {
+        return new Promise((resolve, reject) => {
+            
+            //Load previous stats
+            this.getStats()
+                .then(stats => {
+                    
+                    //Generate new stats
+                    stats.times_played = stats.times_played ? stats.times_played + 1 : 1;
+                    stats.answered = stats.answered ? stats.answered + answered : answered;
+                    stats.correct = stats.correct ? stats.correct + correct : correct;
+
+                    //Save stats
+                    AsyncStorage.mergeItem(STATS_STORAGE_KEY, JSON.stringify(stats))
+                        .then(() => {
+                            resolve(stats);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
+                
+                }).catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    /* Common */
     loadData() {
         return new Promise((resolve, reject) => {
-            Promise.all([this.getDecks(), this.getCards()])
+            Promise.all([this.getDecks(), this.getCards(), this.getStats()])
                 .then(results => {
                     resolve({
                         decks: results[0],
                         cards: results[1],
+                        stats: results[2],
                     });
                 }).catch(err => {
                     reject(err);
@@ -202,6 +234,7 @@ class StorageService {
         return Promise.all([
             AsyncStorage.removeItem(DECKS_STORAGE_KEY),
             AsyncStorage.removeItem(CARDS_STORAGE_KEY),
+            AsyncStorage.removeItem(STATS_STORAGE_KEY),
             AsyncStorage.removeItem(FLASHCARDS_STORAGE_KEY),
         ]);
     }
