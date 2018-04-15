@@ -4,6 +4,7 @@ const FLASHCARDS_STORAGE_KEY = 'MobileFlashcards';
 const DECKS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':decks';
 const CARDS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':cards';
 const STATS_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':stats';
+const NOTIFICATION_STORAGE_KEY = FLASHCARDS_STORAGE_KEY + ':notification';
 
 class StorageService {
 
@@ -188,11 +189,11 @@ class StorageService {
 
     updateStats(answered, correct) {
         return new Promise((resolve, reject) => {
-            
+
             //Load previous stats
             this.getStats()
                 .then(stats => {
-                    
+
                     //Generate new stats
                     stats.times_played = stats.times_played ? stats.times_played + 1 : 1;
                     stats.answered = stats.answered ? stats.answered + answered : answered;
@@ -206,22 +207,40 @@ class StorageService {
                         .catch(err => {
                             reject(err);
                         })
-                
+
                 }).catch(err => {
                     reject(err);
                 });
         });
     }
 
+    /* Notification */
+    setLocalNotification(notification) {
+        return AsyncStorage
+            .mergeItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(notification));
+    }
+    getLocalNotification() {
+        return this.getEntity(NOTIFICATION_STORAGE_KEY);
+    }
+    clearLocalNotification() {
+        return AsyncStorage.removeItem(NOTIFICATION_STORAGE_KEY);
+    }
+
     /* Common */
     loadData() {
         return new Promise((resolve, reject) => {
-            Promise.all([this.getDecks(), this.getCards(), this.getStats()])
+            Promise.all([
+                this.getDecks(),
+                this.getCards(),
+                this.getStats(),
+                this.getLocalNotification()
+            ])
                 .then(results => {
                     resolve({
                         decks: results[0],
                         cards: results[1],
                         stats: results[2],
+                        notification: results[3],
                     });
                 }).catch(err => {
                     reject(err);
@@ -235,6 +254,7 @@ class StorageService {
             AsyncStorage.removeItem(DECKS_STORAGE_KEY),
             AsyncStorage.removeItem(CARDS_STORAGE_KEY),
             AsyncStorage.removeItem(STATS_STORAGE_KEY),
+            AsyncStorage.removeItem(NOTIFICATION_STORAGE_KEY),
             AsyncStorage.removeItem(FLASHCARDS_STORAGE_KEY),
         ]);
     }

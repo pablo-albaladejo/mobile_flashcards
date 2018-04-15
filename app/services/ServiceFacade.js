@@ -1,6 +1,7 @@
 import i18nService from './i18nService';
 import StorageService from './StorageService';
 import UtilsService from './UtilsService';
+import NotificationService  from './NotificationService';
 
 class ServiceFacade {
 
@@ -42,6 +43,14 @@ class ServiceFacade {
     /* Stats */
     static updateStats(answered, correct) {
         return StorageService.getInstance().updateStats(answered, correct);
+    }
+
+    /* Notification */
+    static setLocalNotification(title, body, hours, minutes){
+        return NotificationService.getInstance().setLocalNotification(title, body, hours, minutes);
+    }
+    static clearLocalNotification(){
+        return NotificationService.getInstance().clearLocalNotification();
     }
 
     /* Common */
