@@ -1,6 +1,12 @@
 {
   "expo": {
     "sdkVersion": "25.0.0",
-    "icon": "./app/assets/images/logo.png"
+    "icon": "./app/assets/images/logo.png",
+    "name": "Flashcards",
+    "version": "1.0.0",
+    "description": "Flash Cards"
+  },
+  "android": {
+    "package": "com.karmaemprendedor.flashcards"
   }
 }
