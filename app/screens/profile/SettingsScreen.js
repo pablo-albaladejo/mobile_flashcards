@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Switch } from 'react-native';
-
+import DatePicker from "react-native-datepicker";
 import { Button, Text } from 'react-native-elements';
 
 import { connect } from 'react-redux';
@@ -17,10 +17,32 @@ import Colors from '../../constants/Colors';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+
+    },
+    content: {
+        width: "80%",
+        flex: 1,
+        justifyContent: 'space-around',
+        alignSelf: 'center',
+    },
+    date: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    reminders: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 });
 
 class SettingsScreen extends Component {
+
+    state = {
+        title: ServiceFacade.getTranslation("Notifications.title"),
+        body: ServiceFacade.getTranslation("Notifications.body"),
+        time: this.props.time,
+    }
 
     onBackPressHandler = () => {
         this.props.navigation.goBack();
@@ -31,20 +53,39 @@ class SettingsScreen extends Component {
     }
 
     onNotificationChange = (enabled) => {
-        let title = "title";
-        let body = "body";
-        let hours = 14;
-        let minutes = 8;
 
         if (enabled) {
-            this.props.dispatch(notificationSet(title, body, hours, minutes));
+            this.props.dispatch(notificationSet(
+                this.state.title,
+                this.state.body,
+                this.state.time.hours,
+                this.state.time.minutes
+            ));
         } else {
             this.props.dispatch(notificationClear());
         }
-        
+
+    }
+
+    onTimeChange = (time) => {
+        let timeArray = time.split(':');
+
+        let hours = timeArray[0];
+        let minutes = timeArray[1];
+
         this.setState({
-            enableNotifications: enabled
+            time: {
+                hours,
+                minutes,
+            }
         });
+
+        this.props.dispatch(notificationSet(
+            this.state.title,
+            this.state.body,
+            hours,
+            minutes,
+        ));
     }
 
     render() {
@@ -59,22 +100,52 @@ class SettingsScreen extends Component {
             }
         }
 
+        let time = new Date();
+        time.setHours(this.state.time.hours);
+        time.setMinutes(this.state.time.minutes);
+
         return (
             <View style={styles.container} >
                 <CustomNavigationBar options={navBarOptions} />
 
-                <View style={styles.buttons}>
+                <View style={styles.content}>
 
                     {/* Set notification*/}
-                    <Switch
-                        onValueChange={this.onNotificationChange}
-                        value={this.props.enableNotifications}
-                    />
+                    <View style={styles.reminders}>
+                        <Text h3>{ServiceFacade.getTranslation("Settings.reminders")}</Text>
+                        <Switch
+                            onTintColor={Colors.primary}
+                            onValueChange={this.onNotificationChange}
+                            value={this.props.enableNotifications}
+                        />
+                    </View>
+
+                    {/* Set time */}
+                    {this.props.enableNotifications && (
+                        <View style={styles.date}>
+                            <DatePicker
+                                style={this.props.inputStyle || null}
+                                customStyles={this.props.customStyles || undefined}
+
+                                locale={ServiceFacade.getCurrentLocale()}
+                                mode="time"
+                                onDateChange={this.onTimeChange}
+                                date={time}
+                                confirmBtnText={ServiceFacade.getTranslation("Settings.confirm")}
+                                cancelBtnText={ServiceFacade.getTranslation("Settings.cancel")}
+
+                                showIcon={this.props.icon !== undefined}
+                                iconComponent={
+                                    this.props.icon || undefined
+                                }
+                            />
+                        </View>
+                    )}
 
                     {/* Clear data */}
                     <Button
+                        buttonStyle={{ backgroundColor: Colors.danger }}
                         onPress={this.onClearHandler}
-                        buttonStyle={[styles.button, styles.clear_button]}
                         text={ServiceFacade.getTranslation('Settings.clear_data')}
                     />
                 </View>
@@ -84,13 +155,19 @@ class SettingsScreen extends Component {
 }
 function mapStateToProps(state) {
     let enableNotifications = Object.keys(state.notification).length > 0;
+    let time = {
+        hours: 0,
+        minutes: 0,
+    };
 
     if (enableNotifications) {
-        console.log(state.notification);
+        time.hours = state.notification.hours;
+        time.minutes = state.notification.minutes;
     }
 
     return {
         enableNotifications,
+        time,
     }
 }
 export default connect(mapStateToProps)(SettingsScreen);

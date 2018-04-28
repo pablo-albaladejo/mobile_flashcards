@@ -49,6 +49,9 @@ class ServiceFacade {
     static setLocalNotification(title, body, hours, minutes){
         return NotificationService.getInstance().setLocalNotification(title, body, hours, minutes);
     }
+    static rescheduleLocalNotification(){
+        return NotificationService.getInstance().rescheduleLocalNotification();
+    }
     static clearLocalNotification(){
         return NotificationService.getInstance().clearLocalNotification();
     }

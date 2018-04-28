@@ -57,7 +57,14 @@
             "data_cleared_ok": "Ok",
             "error": "Error",
             "data_cleared_error": "Something went wrong",
-            "data_cleared_error_ok": "Ok"
+            "data_cleared_error_ok": "Ok",
+            "reminders": "Reminders",
+            "confirm": "Confirm",
+            "cancel": "Cancel"
+        },
+        "Notifications": {
+          "title": "Reminder",
+          "body": "Do not forget to study today!"  
         },
         "Stats": {
             "times_played": "Times played",

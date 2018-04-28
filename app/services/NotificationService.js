@@ -32,6 +32,34 @@ class NotificationService {
         }
     }
 
+    rescheduleLocalNotification() {
+        return new Promise((resolve, reject) => {
+
+            //get the already stored info
+            StorageService.getInstance().getLocalNotification()
+                .then(notification => {
+
+                    //if empty object means no notification enabled
+                    if (Object.keys(notification).length > 0) {
+                        const { title, body, hours, minutes } = notification;
+
+                        //setting as new notification, delays the current notification for a new date
+                        this.setLocalNotification(title, body, hours, minutes)
+                            .then(() => {
+                                resolve();
+                            }).catch(err => {
+                                reject(err)
+                            });
+                    } else {
+                        resolve();
+                    }
+
+                }).catch(err => {
+                    reject(err)
+                });
+        });
+
+    }
 
     setLocalNotification(title, body, hours, minutes) {
         return new Promise((resolve, reject) => {
@@ -45,7 +73,7 @@ class NotificationService {
 
                         //Remove previous scheduled
                         Notifications.cancelAllScheduledNotificationsAsync().then(() => {
-                            
+
                             //Create date
                             let tomorrow = new Date();
                             tomorrow.setDate(tomorrow.getDate() + 1);

@@ -129,7 +129,13 @@ class QuizScreen extends Component {
     }
 
     onFinishHandler = () => {
+        //update stats
         this.props.onQuizFinished(this.state.answeredCards, this.state.correctAnswered);
+        
+        //reschedule today notification
+        ServiceFacade.rescheduleLocalNotification();
+        
+        //close screen
         this.props.navigation.goBack();
     }
 
