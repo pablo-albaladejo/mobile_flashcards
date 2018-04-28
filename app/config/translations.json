@@ -72,5 +72,79 @@
             "correct": "Correct answers",
             "accuracy": "Global accuracy"
         }
+    },
+    "es": {
+        "Menu": {
+            "decks": "Barajas",
+            "no_decks": "No hay barajas",
+            "create_first": "Crea la primera",
+            "deck": "Baraja",
+            "create_deck": "Crear baraja",
+            "profile": "Perfil",
+            "settings": "Ajustes"
+        },
+        "Deck": {
+            "cards": "cartas",
+            "add_card": "Añadir carta",
+            "start_quiz": "Empezar prueba",
+            "delete": "Borrar prueba",
+            "quiz": "Prueba",
+            "warning": "Cuidado",
+            "delete_deck": "¿Realmente quieres borrar esta prueba?",
+            "cancel": "Cancelar",
+            "ok": "Ok"
+        },
+        "Card": {
+            "title": "Crear nueva carta",
+            "create": "Crear",
+            "question": "Introduce la pregunta",
+            "answer": "Introduce la respuesta",
+            "error": "Error",
+            "all_required": "Todos los campos son necesarios",
+            "all_required_ok": "Ok"
+        },
+        "Quiz": {
+            "next": "Siguiente",
+            "warning": "Cuidado",
+            "progress_lost": "Tu progreso actual se perderá",
+            "ok": "Ok",
+            "cancel": "Cancelar",
+            "correct": "Correcto",
+            "incorrect": "Incorrecto",
+            "question": "Pregunta",
+            "answer": "Respueta",
+            "flip": "Dar la vuelta",
+            "score": "Puntuación",
+            "finish": "Terminar"
+        },
+        "CreateDeck": {
+            "title": "¿Cuál es el título de la nueva baraja?",
+            "create": "Crear",
+            "error": "Error",
+            "title_not_empty": "El título no puede estar vacio",
+            "title_not_empty_ok": "Ok"
+        },
+        "Settings": {
+            "clear_data": "Borrar los datos",
+            "success": "Éxito",
+            "data_cleared": "Datos borrados correctamente",
+            "data_cleared_ok": "Ok",
+            "error": "Error",
+            "data_cleared_error": "Algo ha ido mal",
+            "data_cleared_error_ok": "Ok",
+            "reminders": "Recordatorios",
+            "confirm": "Confirmar",
+            "cancel": "Cancelar"
+        },
+        "Notifications": {
+          "title": "Recordatorio",
+          "body": "¡No te olvides de estudiar hoy!"  
+        },
+        "Stats": {
+            "times_played": "Número de intentos",
+            "answered": "Total cartas contestadas",
+            "correct": "Respuestas correctas",
+            "accuracy": "Tasa global"
+        }
     }
 }
