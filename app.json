@@ -4,9 +4,9 @@
     "icon": "./app/assets/images/logo.png",
     "name": "Flashcards",
     "version": "1.0.0",
-    "description": "Flash Cards"
-  },
-  "android": {
-    "package": "com.karmaemprendedor.flashcards"
+    "description": "Flash Cards",
+    "android": {
+      "package": "com.karmaemprendedor.flashcards"
+    }
   }
 }
