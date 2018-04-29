@@ -1,8 +1,7 @@
 import ServiceFacade from "../services/ServiceFacade";
 
 export const DECK_ADD = 'DECK_ADD';
-export const deckAdd = (title) => dispatch => {
-    let deck_id = ServiceFacade.generateID();
+export const deckAdd = (deck_id, title) => dispatch => {
     ServiceFacade.addDeck(deck_id, title)
         .then(decks => {
             dispatch(deckAddSync(decks));

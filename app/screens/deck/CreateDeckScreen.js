@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 
+import { NavigationActions } from 'react-navigation'
+
 import { connect } from 'react-redux';
 import { deckAdd } from '../../actions/deck';
 
@@ -63,9 +65,31 @@ class CreateDeckScreen extends Component {
         let title = this.state.title.trim();
 
         if (title) {
-            this.props.dispatch(deckAdd(this.state.title));
-            this.props.navigation.goBack();
-        }else{
+            let deck_id = ServiceFacade.generateID();
+            this.props.dispatch(deckAdd(deck_id, this.state.title));
+
+            //navigate to the new deck screen
+            //https://github.com/react-navigation/react-navigation/issues/1715#issuecomment-362368925
+            const actions = [
+                NavigationActions.reset({
+                    index: 0,
+                    key: null,
+                    actions: [
+                        NavigationActions.navigate({
+                            routeName: 'Main',
+                        }),
+                    ]
+                }),
+                NavigationActions.navigate({
+                    routeName: 'DeckView',
+                    params: {
+                        deck_id: deck_id,
+                    }
+                })
+            ];
+            actions.forEach(this.props.navigation.dispatch);
+
+        } else {
             Alert.alert(
                 ServiceFacade.getTranslation("CreateDeck.error"),
                 ServiceFacade.getTranslation("CreateDeck.title_not_empty"),
