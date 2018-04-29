@@ -6,7 +6,7 @@ Expo version:
 * https://exp.host/@pablo-albaladejo/flashcards
 
 Release version could be found at Google Play:
-* https://play.google.com/store/apps/dev?id=6616044390532946052
+* https://play.google.com/store/apps/details?id=com.karmaemprendedor.flashcards
 
 Feel free to be in touch at:
 * pablo.albaladejo.mestre@gmail.com
