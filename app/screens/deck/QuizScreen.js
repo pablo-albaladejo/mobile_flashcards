@@ -68,9 +68,13 @@ const styles = StyleSheet.create({
     score: {
 
     },
+    restart_button: {
+        width: width * 0.9,
+        backgroundColor: Colors.primary,
+    },
     finish_button: {
         width: width * 0.9,
-        backgroundColor: Colors.warning,
+        backgroundColor: Colors.secondary,
     }
 
 
@@ -128,13 +132,29 @@ class QuizScreen extends Component {
         });
     }
 
-    onFinishHandler = () => {
+    setQuizFinished = () => {
         //update stats
         this.props.onQuizFinished(this.state.answeredCards, this.state.correctAnswered);
-        
+
         //reschedule today notification
         ServiceFacade.rescheduleLocalNotification();
-        
+    }
+
+    onRestartHandler = () => {
+        this.setQuizFinished();
+
+        //Restart
+        this.setState({
+            answeredCards: 0,
+            canNext: false,
+            correctAnswered: 0,
+            showResume: false,
+        });
+    }
+
+    onFinishHandler = () => {
+        this.setQuizFinished();
+
         //close screen
         this.props.navigation.goBack();
     }
@@ -199,6 +219,13 @@ class QuizScreen extends Component {
                         <Text h2 style={styles.score}>
                             {this.state.correctAnswered + " / " + this.props.cards.length}
                         </Text>
+
+                        {/* Restart */}
+                        <Button
+                            buttonStyle={styles.restart_button}
+                            text={ServiceFacade.getTranslation("Quiz.restart")}
+                            onPress={this.onRestartHandler}
+                        />
 
                         {/* Finish */}
                         <Button

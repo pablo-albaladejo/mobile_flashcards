@@ -41,7 +41,8 @@
             "answer": "Answer",
             "flip": "Flip",
             "score": "Score",
-            "finish": "Finish"
+            "finish": "Finish",
+            "restart": "Restart"
         },
         "CreateDeck": {
             "title": "What is the title of your new deck?",
@@ -115,7 +116,8 @@
             "answer": "Respueta",
             "flip": "Dar la vuelta",
             "score": "Puntuación",
-            "finish": "Terminar"
+            "finish": "Terminar",
+            "restart": "Volver a emprezar"
         },
         "CreateDeck": {
             "title": "¿Cuál es el título de la nueva baraja?",
